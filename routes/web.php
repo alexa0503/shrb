@@ -10,7 +10,25 @@
 | to using a Closure or controller method. Build something great!
 |
 */
+Route::get('msg',function(){
+    $data = [];
+    $post_data = [];
+    $data['appID'] = '5baa1827-1e48-44d2-8c0c-94fd60284c38';
+    $data['random'] = time();
+    $data['key'] = 'c1305108-4274-4de2-8243-0c6a80009106';
+    $url = 'https://hop.hulubank.com.cn:1443/apis/msg/sendMsg';
 
+    $md5 = md5(http_build_query($data));
+    $post_data['md5'] = $md5;
+    $post_data['msg'] = 'test';
+    $post_data['mobile'] = '15618892632';
+    $post_data['appID'] = $data['appID'];
+    $post_data['random'] = $data['random'];
+    $result = App\Helper\HttpClient::post($url, $post_data);
+    var_dump($result,$post_data,http_build_query($data));
+
+    return;
+});
 Route::get('/', 'HomeController@index');
 Route::get('share/{id}', 'HomeController@share');
 Route::get('rich/list/{id?}', 'HomeController@richList');

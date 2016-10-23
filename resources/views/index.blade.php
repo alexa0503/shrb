@@ -173,7 +173,7 @@
           	<img class="p5-img1" src="/images/p5-img1.png" />
             <p class="p5-w1">*点击填写<a href="javascript:;">个人完整中奖信息</a></p>
             <p class="p5-w2">*详情点击<a href="javascript:;">兑换方式及活动细则</a></p>
-            <p class="p5-w3">晒出你的专属2016华氏全球富豪榜</p>
+            <p class="p5-w3">中奖信息我们将通过短信形式同步给您，请注意查收。<br />晒出你的专属2016华氏全球富豪榜</p>
             <!--<input class="name" type="text" />
             <input class="mobil" type="tel" maxlength="11" />
             <input class="adress" type="text" />-->
@@ -196,7 +196,7 @@
             <p class="p6-info">格瓦拉电影票兑换码</p>
             <p class="p6-num">1240694003759234</p>
             <p class="p6-w1">*截屏保留中奖信息，详情点击<a href="javascript:;">兑换方式及活动细则</a></p>
-            <p class="p6-w2">晒出你的专属2016华氏全球富豪榜</p>
+            <p class="p6-w2">中奖信息我们将通过短信形式同步给您，请注意查收。<br />晒出你的专属2016华氏全球富豪榜</p>
           	<div class="ma1">
             	<img src="/images/ma.png" />
             </div>
@@ -216,7 +216,7 @@
             <p class="p8-info">优酷7天会员资格</p>
             <p class="p8-num">1240694003759234</p>
             <p class="p6-w1">*截屏保留中奖信息，详情点击<a href="javascript:;">兑换方式及活动细则</a></p>
-            <p class="p6-w2">晒出你的专属2016华氏全球富豪榜</p>
+            <p class="p6-w2">中奖信息我们将通过短信形式同步给您，请注意查收。<br />晒出你的专属2016华氏全球富豪榜</p>
           	<div class="ma1">
             	<img src="/images/ma.png" />
             </div>
@@ -290,6 +290,26 @@
         </div>
       </div>
       <!--填写信息-->
+      <!--新增填写信息-->
+      <div class="p12">
+      	<div class="bgimg" style="width:640px; height:1039px; background:url(/images/p12-bg.jpg) no-repeat;"></div>
+        <div class="fix-height">
+          <div class="relative">
+
+            <a class="p12-close" href="javascript:;"><img src="/images/p9-close.png" /></a>
+
+            <input class="mobile" type="tel" maxlength="11" placeholder="请输入您的手机号" />
+
+            <a class="p12-btn" href="javascript:;"></a>
+
+            <div class="ma1">
+            	<img src="/images/ma.png" />
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!--新增填写信息-->
           <!--榜单浮层-->
         <div class="showsdiv" >
            <div class="showsbox"><a href="javascript:;" onclick="jmClose();" class="cglcose"></a></div>
@@ -413,8 +433,11 @@ window.onload = function(){
 	timerPiont();
 
     ////////////////////////////////////////////////////新增JS///////////////////////////////////////////////////
-
-
+    //新增页面点击关闭
+    $('.p12-close').on('touchend',function(){
+        $('.p12').fadeOut();
+        lottery();
+    });
     //中奖点击规则
 	$('.p5-w2 a, .p6-w1 a, .p8-w1 a').on('touchend', function(){
 		$('.p9').show();
@@ -525,7 +548,8 @@ window.onload = function(){
 
   //点击保存榜单按钮,这里需要后台保存榜单功能，保存的同时执行下面的show()方法
   $('.p3-btn2').on('touchend',function () {
-      lottery();
+      //lottery();
+      $('.p12').fadeIn();
   })
 
 
