@@ -296,7 +296,7 @@
         <div class="fix-height">
           <div class="relative">
 
-            <a class="p12-close" href="javascript:;"><img src="/images/p9-close.png" /></a>
+            <!--<a class="p12-close" href="javascript:;"><img src="/images/p9-close.png" /></a>-->
 
             <input class="mobile" type="tel" maxlength="11" placeholder="请输入您的手机号" />
 

@@ -13,10 +13,10 @@
 Route::get('msg',function(){
     $data = [];
     $post_data = [];
-    $data['appID'] = '5baa1827-1e48-44d2-8c0c-94fd60284c38';
+    $data['appID'] = '83532675-fd59-4897-ad6d-5e3d3a011706';
     $data['random'] = time();
-    $data['key'] = 'c1305108-4274-4de2-8243-0c6a80009106';
-    $url = 'https://hop.hulubank.com.cn:1443/apis/msg/sendMsg';
+    $data['key'] = '1de61ed3-1178-4e3e-aabb-994af28e8772';
+    $url = 'https://hop.hulubank.com.cn:443/apis/msg/sendMsg';
 
     $md5 = md5(http_build_query($data));
     $post_data['md5'] = $md5;
@@ -26,6 +26,7 @@ Route::get('msg',function(){
     $post_data['random'] = $data['random'];
     $result = App\Helper\HttpClient::post($url, $post_data);
     var_dump($result,$post_data,http_build_query($data));
+    //appID=83532675-fd59-4897-ad6d-5e3d3a011706&random=xx&key=1de61ed3-1178-4e3e-aabb-994af28e8772
 
     return;
 });

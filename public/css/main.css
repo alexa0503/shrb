@@ -325,7 +325,7 @@ select,input,textarea{font-family:inherit; outline:none;}
 
 /*填写信息*/
 .p12{ display:none; position:relative; z-index:100;}
-.p12 input{ background:none; -webkit-tap-highlight-color:rgba(255,0,0,0); color:#70675e; line-height:39px;}
+.p12 input{ background:none; -webkit-tap-highlight-color:rgba(255,0,0,0); color:#b48d5e; font-size:24px;}
 .mobile{ width:480px; height:64px; position:absolute; left:88px; top:298px; font-size:20px; border: 1px solid #9d8060; text-align: center; z-index:11;}
 .p12-btn{ width: 322px; height:64px; position:absolute; left:160px; top:516px; z-index: 11;}
 .p12-close{ position:absolute; right:46px; top:30px;}
