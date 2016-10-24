@@ -31,8 +31,8 @@ class HttpClient
             'Accept: application/json',
             'Content-Length: ' . strlen($data_string))
         );
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1); 
-        curl_setopt($ch, CURLOPT_HEADER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
 
         $result = curl_exec($ch);
         return $result;

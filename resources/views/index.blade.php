@@ -435,9 +435,22 @@ window.onload = function(){
     ////////////////////////////////////////////////////新增JS///////////////////////////////////////////////////
     //新增页面点击关闭
     $('.p12-close').on('touchend',function(){
-        $('.p12').fadeOut();
-        lottery();
+        //$('.p12').fadeOut();
+        //lottery();
     });
+    $('.p12-btn').on('touchend', function(){
+        var mobile = $('.mobile').val();
+        $.post('{{url("msg")}}',{mobile:mobile}, function(json){
+            if(json.ret == 0){
+                $('.p12').fadeOut();
+                lottery();
+            }
+            else{
+                alert(json.msg);
+            }
+        },"JSON");
+
+    })
     //中奖点击规则
 	$('.p5-w2 a, .p6-w1 a, .p8-w1 a').on('touchend', function(){
 		$('.p9').show();

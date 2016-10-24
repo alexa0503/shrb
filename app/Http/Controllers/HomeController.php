@@ -30,6 +30,38 @@ class HomeController extends Controller
         $link = url('/share/'.$rich_list->id);
         return view('index', ['has_award'=> $has_award, 'link'=>$link]);
     }
+    public function msg(Request $request){
+        $mobile = $request->input('mobile');
+        if( preg_match('/^1\d{10}$/', $mobile) == FALSE){
+            return ['ret'=>1001,'msg'=>'请输入正确的手机号'];
+        }
+        Session::set('mobile',$mobile);
+        $msg = '感谢您对上海华瑞银行的支持，诚邀您登陆“朋友圈的银行”体验！我们用心为您打造移动金融服务的一站式服务平台，戳 t.cn/RVSSR9a';
+        $data = [];
+        $post_data = [];
+        $data['appID'] = '83532675-fd59-4897-ad6d-5e3d3a011706';
+        $data['random'] = time().'a';
+        $data['key'] = '1de61ed3-1178-4e3e-aabb-994af28e8772';
+        $url = 'https://hop.hulubank.com.cn:443/apis/msg/sendMsg';
+
+        $md5 = strtoupper(md5(http_build_query($data)));
+        $post_data['sign'] = $md5;
+        $post_data['msg'] = $msg;
+        $post_data['mobile'] = $mobile;
+        $post_data['appID'] = $data['appID'];
+        $post_data['random'] = $data['random'];
+        $response = App\Helper\HttpClient::post($url, $post_data);
+
+        $json = json_decode($response, true);
+        if($json !== null && $json['returnCode'] == '000000' && $json['errorCode'] == '000000'){
+            $result = ['ret'=>0];
+        }
+        else{
+            $result = ['ret'=>1002,'msg'=>'发送短信失败'];
+        }
+        return $result;
+
+    }
     public function share(Request $request, $id)
     {
         $rich_list = App\RichList::where('user_id', Session::get('wechat.id'))->orderBy('created_at', 'DESC')->first();
@@ -213,7 +245,47 @@ class HomeController extends Controller
 
         $lottery = new Lottery();
         $prize = $lottery->run();
+        $code = $lottery->getCode();
         if( $prize == null) $prize = 0;
+        if( $prize == 2 || $prize == 3){
+            $mobile = Session::get('mobile');
+            $msg = [
+                '恭喜您中得二等奖（格瓦拉电影票一张），您的电影票串码： '.$code.'  请登录格瓦拉网站兑换礼遇！感谢您对“朋友圈的银行”支持，敬请登录我行网站体验 t.cn/RVSSR9a',
+                '恭喜您中得三等奖（优酷周卡一张），您的周卡串码： '.$code.'  请登录优酷网站兑换礼遇！感谢您对“朋友圈的银行”支持，敬请登录我行网站体验 t.cn/RVSSR9a '
+            ];
+
+            $data = [];
+            $post_data = [];
+            $data['appID'] = '83532675-fd59-4897-ad6d-5e3d3a011706';
+            $data['random'] = time().'a';
+            $data['key'] = '1de61ed3-1178-4e3e-aabb-994af28e8772';
+            $url = 'https://hop.hulubank.com.cn:443/apis/msg/sendMsg';
+
+            $md5 = strtoupper(md5(http_build_query($data)));
+            $post_data['sign'] = $md5;
+            $post_data['msg'] = $msg;
+            $post_data['mobile'] = $mobile;
+            $post_data['appID'] = $data['appID'];
+            $post_data['random'] = $data['random'];
+            App\Helper\HttpClient::post($url, $post_data);
+
+            $info = new App\Info();
+            $info->id =  Session::get('wechat.id');
+            $info->name = '';
+            $info->mobile = $mobile;
+            $info->address = '';
+            $info->ip_address = $request->getClientIp();
+            $info->save();
+            /*
+            $json = json_decode($response, true);
+            if($json == true && $json['returnCode'] == '000000' && $json['errorCode'] == '000000'){
+                $result = ['ret'=>0];
+            }
+            else{
+                $result = ['ret'=>1002,'msg'=>'发送短信失败'];
+            }
+            */
+        }
         return ['prize'=>$prize, 'ret'=>0];
     }
     public function award()
