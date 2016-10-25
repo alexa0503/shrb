@@ -28,7 +28,9 @@ class HomeController extends Controller
             $rich_list->save();
         }
         $link = url('/share/'.$rich_list->id);
-        return view('index', ['has_award'=> $has_award, 'link'=>$link]);
+        $info = App\Info::find(Session::get('wechat.id'));
+        $mobile = null == $info ? '' : $info->mobile;
+        return view('index', ['has_award'=> $has_award, 'link'=>$link, 'mobile'=>$mobile]);
     }
     public function msg(Request $request){
         $mobile = $request->input('mobile');
@@ -55,6 +57,20 @@ class HomeController extends Controller
         $json = json_decode($response, true);
         if($json !== null && $json['returnCode'] == '000000' && $json['errorCode'] == '000000'){
             $result = ['ret'=>0];
+
+            $info = App\Info::find(Session::get('wechat.id'));
+            if( null == $info){
+                $info = new App\Info();
+                $info->id =  Session::get('wechat.id');
+                $info->name = '';
+                $info->mobile = $mobile;
+                $info->address = '';
+                $info->ip_address = $request->getClientIp();
+            }
+            else{
+                $info->mobile = $mobile;
+            }
+            $info->save();
         }
         else{
             $result = ['ret'=>1002,'msg'=>'发送短信失败'];
@@ -217,7 +233,7 @@ class HomeController extends Controller
         $html = view('list', ['list' => $_list]);
         return ['ret'=>0,'html'=>$html->render(),'link'=>url('/share/'.$rich_list->id)];
     }
-    public function lottery()
+    public function lottery(Request $request)
     {
         $timestamp = time();
         $wechat_user = App\WechatUser::find(Session::get('wechat.id'));
@@ -269,13 +285,7 @@ class HomeController extends Controller
             $post_data['random'] = $data['random'];
             App\Helper\HttpClient::post($url, $post_data);
 
-            $info = new App\Info();
-            $info->id =  Session::get('wechat.id');
-            $info->name = '';
-            $info->mobile = $mobile;
-            $info->address = '';
-            $info->ip_address = $request->getClientIp();
-            $info->save();
+
             /*
             $json = json_decode($response, true);
             if($json == true && $json['returnCode'] == '000000' && $json['errorCode'] == '000000'){
@@ -286,7 +296,7 @@ class HomeController extends Controller
             }
             */
         }
-        return ['prize'=>$prize, 'ret'=>0];
+        return ['prize'=>$prize, 'ret'=>0, 'code'=>$code];
     }
     public function award()
     {
@@ -294,7 +304,13 @@ class HomeController extends Controller
             ->whereNotNull('prize_id')
             ->first();
         if(null != $lottery){
-            return ['ret'=>0,'prize'=>$lottery->prize_id];
+            $code = null;
+            if( null != $lottery->prize_code_id ){
+                $prize_code = App\PrizeCode::find($lottery->prize_code_id);
+                $code = $prize_code->code;
+            }
+
+            return ['ret'=>0,'prize'=>$lottery->prize_id, 'code'=>$code];
         }
         return ['ret'=>1001];
     }
@@ -322,12 +338,21 @@ class HomeController extends Controller
     }
     public function info(Request $request)
     {
-        $info = new App\Info();
-        $info->id =  Session::get('wechat.id');
-        $info->name = $request->get('name');
-        $info->mobile = $request->get('mobile');
-        $info->address = $request->get('address');
-        $info->ip_address = $request->getClientIp();
+        $info = App\Info::find(Session::get('wechat.id'));
+        if( null == $info){
+            $info = new App\Info();
+            $info->id =  Session::get('wechat.id');
+            $info->name = $request->get('name');
+            $info->mobile = $request->get('mobile');
+            $info->address = $request->get('address');
+            $info->ip_address = $request->getClientIp();
+        }
+        else{
+            $info->name = $request->get('name');
+            $info->mobile = $request->get('mobile');
+            $info->address = $request->get('address');
+        }
+
         $info->save();
         return ['ret'=>0];
     }

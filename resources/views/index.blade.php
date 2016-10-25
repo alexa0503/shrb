@@ -298,7 +298,7 @@
 
             <!--<a class="p12-close" href="javascript:;"><img src="/images/p9-close.png" /></a>-->
 
-            <input class="mobile" type="tel" maxlength="11" placeholder="请输入您的手机号" />
+            <input class="mobile" type="tel" maxlength="11" placeholder="请输入您的手机号" value="{{$mobile}}" />
 
             <a class="p12-btn" href="javascript:;"></a>
 
@@ -326,9 +326,11 @@ function getAward()
                 $('.p5').fadeIn();
             }
             else if(json.prize == 2){
+                $('.p6-num').html(json.code);
                 $('.p6').fadeIn();
             }
             else if(json.prize == 3){
+                $('.p8-num').html(json.code);
                 $('.p8').fadeIn();
             }
             else{
@@ -367,9 +369,11 @@ function lottery()
                             $('.p5').fadeIn();
                         }
                         else if(prize == 2){
+                            $('.p6-num').html(json.code);
                             $('.p6').fadeIn();
                         }
                         else if(prize == 3){
+                            $('.p8-num').html(json.code);
                             $('.p8').fadeIn();
                         }
                         else{
@@ -438,17 +442,23 @@ window.onload = function(){
         //$('.p12').fadeOut();
         //lottery();
     });
+    var has_submit = false;
     $('.p12-btn').on('touchend', function(){
         var mobile = $('.mobile').val();
-        $.post('{{url("msg")}}',{mobile:mobile}, function(json){
-            if(json.ret == 0){
-                $('.p12').fadeOut();
-                lottery();
-            }
-            else{
-                alert(json.msg);
-            }
-        },"JSON");
+        if( has_submit == false){
+            has_submit = true;
+            $.post('{{url("msg")}}',{mobile:mobile}, function(json){
+                if(json.ret == 0){
+                    $('.p12').fadeOut();
+                    lottery();
+                }
+                else{
+                    has_submit = false;
+                    alert(json.msg);
+                }
+            },"JSON");
+        }
+
 
     })
     //中奖点击规则
