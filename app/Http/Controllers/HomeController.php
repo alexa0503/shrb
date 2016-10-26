@@ -94,7 +94,9 @@ class HomeController extends Controller
         $link = url('/share/'.$rich_list->id);
         $has_award = \App\Lottery::where('user_id',  Session::get('wechat.id'))
             ->count();
-        return view('index',['id'=>$id, 'has_award'=> $has_award, 'link'=>$link]);
+        $info = App\Info::find(Session::get('wechat.id'));
+        $mobile = null == $info ? '' : $info->mobile;
+        return view('index',['id'=>$id, 'has_award'=> $has_award, 'link'=>$link, 'mobile'=>$mobile]);
     }
     protected function reorder($data, $list = null)
     {
