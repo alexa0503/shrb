@@ -134,7 +134,25 @@
         </div>
       </div>
       <!--榜单-->
+<!--新增填写信息-->
+      <div class="p12">
+        <div class="bgimg" style="width:640px; height:1039px; background:url(/images/p12-bg.jpg) no-repeat;"></div>
+        <div class="fix-height">
+          <div class="relative">
 
+            <!--<a class="p12-close" href="javascript:;"><img src="/images/p9-close.png" /></a>-->
+
+            <input class="mobile" type="tel" maxlength="11" placeholder="请输入您的手机号" value="{{$mobile}}" />
+
+            <a class="p12-btn" href="javascript:;"></a>
+
+            <div class="ma1">
+              <img src="/images/ma.png" />
+            </div>
+
+          </div>
+        </div>
+      </div>
       <!--九宫格抽奖-->
       <div class="p4">
         <div class="bgimg" style="width:640px; height:1039px; background:url(/images/box-bg.jpg) no-repeat;"></div>
@@ -290,25 +308,7 @@
         </div>
       </div>
       <!--填写信息-->
-      <!--新增填写信息-->
-      <div class="p12">
-      	<div class="bgimg" style="width:640px; height:1039px; background:url(/images/p12-bg.jpg) no-repeat;"></div>
-        <div class="fix-height">
-          <div class="relative">
-
-            <!--<a class="p12-close" href="javascript:;"><img src="/images/p9-close.png" /></a>-->
-
-            <input class="mobile" type="tel" maxlength="11" placeholder="请输入您的手机号" value="{{$mobile}}" />
-
-            <a class="p12-btn" href="javascript:;"></a>
-
-            <div class="ma1">
-            	<img src="/images/ma.png" />
-            </div>
-
-          </div>
-        </div>
-      </div>
+      
       <!--新增填写信息-->
           <!--榜单浮层-->
         <div class="showsdiv" >
@@ -381,6 +381,7 @@ function lottery()
                         }
                         wxShare({shared:1});
                     },1000)
+                    $('.p4').fadeIn(400,function(){$('.p12').hide();});
                     //抽奖执行完毕的回调函数,参数e为获奖编号
                     //因为这里是指定的，所以e == 5
                     //$('.jg1 em').text(e);
