@@ -381,7 +381,7 @@ function lottery()
                         }
                         wxShare({shared:1});
                     },1000)
-                    $('.p4').fadeIn(400,function(){$('.p12').hide();});
+                    //$('.p4').fadeIn(400,function(){$('.p12').hide();});
                     //抽奖执行完毕的回调函数,参数e为获奖编号
                     //因为这里是指定的，所以e == 5
                     //$('.jg1 em').text(e);
@@ -450,7 +450,8 @@ window.onload = function(){
             has_submit = true;
             $.post('{{url("msg")}}',{mobile:mobile}, function(json){
                 if(json.ret == 0){
-                    $('.p12').fadeOut();
+                    //$('.p12').fadeOut();
+                    $('.p4').fadeIn(400,function(){$('.p12').hide();});
                     lottery();
                 }
                 else{
