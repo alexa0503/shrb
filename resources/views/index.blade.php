@@ -376,13 +376,13 @@ function lottery()
                         }
                         else if(prize == 3){
                             $('.p8-num').html(json.code);
-                            //$('.p8').fadeIn();
                             $('.p8').fadeIn(400,function(){$('.p12').hide();});
                         }
                         else{
                             //$('.p7').fadeIn();
                             $('.p7').fadeIn(400,function(){$('.p12').hide();});
                         }
+                        $('.p4').fadeIn(400,function(){$('.p12').hide();});
                         wxShare({shared:1});
                     },1000)
                     
