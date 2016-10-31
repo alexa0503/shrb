@@ -323,25 +323,25 @@ function getAward()
     $.getJSON('/award', function(json){
         if(json && json.ret == 0){
             if(json.prize == 1){
-                $('.p5').fadeIn();
+                $('.p5').fadeIn(400,function(){$('.p12').hide();});
             }
             else if(json.prize == 2){
                 $('.p6-num').html(json.code);
-                $('.p6').fadeIn();
+                $('.p6').fadeIn(400,function(){$('.p12').hide();});
             }
             else if(json.prize == 3){
                 $('.p8-num').html(json.code);
-                $('.p8').fadeIn();
+                $('.p8').fadeIn(400,function(){$('.p12').hide();});
             }
             else{
-                $('.p7').fadeIn();
+                $('.p7').fadeIn(400,function(){$('.p12').hide();});
             }
         }
         else{
-            $('.p7').fadeIn();
+            $('.p7').fadeIn(400,function(){$('.p12').hide();});
         }
     }).fail(function(){
-        $('.p7').fadeIn();
+        $('.p7').fadeIn(400,function(){$('.p12').hide();});
     });
 }
 
@@ -357,7 +357,6 @@ function lottery()
                 prize = Math.floor(Math.random()*10);
                 if( prize < 4 || prize == 9 ) prize = 4
             }
-            $('.p4').fadeIn(400,function(){$('.p12').hide();});
             $('.cj1').myLuckDraw({
                 row : 3, //行
                 column : 3, //列
@@ -449,7 +448,6 @@ window.onload = function(){
             has_submit = true;
             $.post('{{url("msg")}}',{mobile:mobile}, function(json){
                 if(json.ret == 0){
-                    //$('.p12').fadeOut();
                     lottery();
                 }
                 else{
