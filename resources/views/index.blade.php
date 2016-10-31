@@ -451,8 +451,12 @@ window.onload = function(){
             $.post('{{url("msg")}}',{mobile:mobile}, function(json){
                 if(json.ret == 0){
                     //$('.p12').fadeOut();
-                    $('.p4').fadeIn(400,function(){$('.p12').hide();});
-                    lottery();
+                    if( json.count > 0){
+                      $('.p4').fadeIn(400,function(){$('.p12').hide();});
+                    }
+                    else{
+                      lottery();
+                    }
                 }
                 else{
                     has_submit = false;
