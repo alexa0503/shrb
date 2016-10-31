@@ -71,13 +71,10 @@ class HomeController extends Controller
                 $info->mobile = $mobile;
             }
             $info->save();
-            $count = App\Lottery::where('user_id',  Session::get('wechat.id'))
-            ->count();
         }
         else{
             $result = ['ret'=>1002,'msg'=>'发送短信失败'];
         }
-        $result['count'] = $count;
         return $result;
 
     }

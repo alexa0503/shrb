@@ -366,22 +366,26 @@ function lottery()
                 end:function(e){
                     setTimeout(function(){
                         if(prize == 1){
-                            $('.p5').fadeIn();
+                            //$('.p5').fadeIn();
+                            $('.p5').fadeIn(400,function(){$('.p12').hide();});
                         }
                         else if(prize == 2){
                             $('.p6-num').html(json.code);
-                            $('.p6').fadeIn();
+                            //$('.p6').fadeIn();
+                            $('.p6').fadeIn(400,function(){$('.p12').hide();});
                         }
                         else if(prize == 3){
                             $('.p8-num').html(json.code);
-                            $('.p8').fadeIn();
+                            //$('.p8').fadeIn();
+                            $('.p8').fadeIn(400,function(){$('.p12').hide();});
                         }
                         else{
-                            $('.p7').fadeIn();
+                            //$('.p7').fadeIn();
+                            $('.p7').fadeIn(400,function(){$('.p12').hide();});
                         }
                         wxShare({shared:1});
                     },1000)
-                    //$('.p4').fadeIn(400,function(){$('.p12').hide();});
+                    
                     //抽奖执行完毕的回调函数,参数e为获奖编号
                     //因为这里是指定的，所以e == 5
                     //$('.jg1 em').text(e);
@@ -451,12 +455,7 @@ window.onload = function(){
             $.post('{{url("msg")}}',{mobile:mobile}, function(json){
                 if(json.ret == 0){
                     //$('.p12').fadeOut();
-                    if( json.count > 0){
-                      $('.p4').fadeIn(400,function(){$('.p12').hide();});
-                    }
-                    else{
-                      lottery();
-                    }
+                    lottery();
                 }
                 else{
                     has_submit = false;
