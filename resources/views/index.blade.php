@@ -349,7 +349,7 @@ var prize = 0;
 function lottery()
 {
     $.post('/lottery',function(json){
-        $('.p5,.p6,.p7,.p8,.share').hide();
+        $('.p5,.p6,.p7,.p8,.share,.p12').hide();
         $('.cj1').empty();
         if(json && json.ret == 0){
             prize = json.prize;
@@ -357,6 +357,7 @@ function lottery()
                 prize = Math.floor(Math.random()*10);
                 if( prize < 4 || prize == 9 ) prize = 4
             }
+
             $('.cj1').myLuckDraw({
                 row : 3, //行
                 column : 3, //列
@@ -364,7 +365,6 @@ function lottery()
                 click : '.bt1', //点击触发
                 time: 1 ,//匀速运动的时间
                 end:function(e){
-                    $('.p12').hide();
                     setTimeout(function(){
                         if(prize == 1){
                             $('.p5').fadeIn();
